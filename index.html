@@ -372,29 +372,49 @@
             renderPins();
         }
 
-        document.getElementById('enter-btn').onclick = function () {
+       window.addEventListener('DOMContentLoaded', () => {
+
+    const enterBtn = document.getElementById('enter-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const muteBtn = document.getElementById('mute-btn');
+
+    if (enterBtn) {
+        enterBtn.addEventListener('click', () => {
             document.getElementById('welcome-screen').classList.add('hidden');
             startExperience();
             playMusicExplicitly();
-        };
+        });
+    }
 
-        document.getElementById('close-btn').onclick = function () {
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
             const img = document.getElementById('main-image');
             img.style.transform = 'scale(1)';
             img.style.filter = 'none';
-            document.getElementById('pins-container').style.opacity = '1';
-            document.getElementById('pins-container').style.pointerEvents = 'auto';
+
+            const pins = document.getElementById('pins-container');
+            pins.style.opacity = '1';
+            pins.style.pointerEvents = 'auto';
+
             this.classList.add('hidden');
+
             document.getElementById('zoom-overlay').classList.remove('opacity-100');
             document.querySelectorAll('#zoom-overlay > div').forEach(div => div.classList.add('hidden'));
-        };
+        });
+    }
 
-        document.getElementById('mute-btn').onclick = function () {
+    if (muteBtn) {
+        muteBtn.addEventListener('click', () => {
             isMuted = !isMuted;
-            const icon = document.getElementById('mute-icon');
 
-            icon.setAttribute('data-lucide', isMuted ? 'volume-x' : 'volume-2');
-            lucide.createIcons();
+            const icon = document.getElementById('mute-icon');
+            if (icon) {
+                icon.setAttribute('data-lucide', isMuted ? 'volume-x' : 'volume-2');
+            }
+
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
 
             if (isMuted) {
                 mutePlayer();
@@ -402,11 +422,14 @@
                 unmutePlayer();
                 playMusicExplicitly();
             }
-        };
-
-        window.addEventListener('load', () => {
-            lucide.createIcons();
         });
+    }
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+});
     </script>
 </body>
 </html>
