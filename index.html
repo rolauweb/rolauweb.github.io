@@ -1,311 +1,172 @@
 <!DOCTYPE html>
-<!-- GALO DEJA DE CHUSMEAR CULEA -->
-<!-- Hola Perra! -->
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Invitación Rodrigo y Laura</title>
-    <!-- galo deja de chusmear culea -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { 
-            background-color: #0c0a09; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            color: white; 
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-        }
-        .font-great-vibes { font-family: 'Great Vibes', cursive; }
-        .font-dancing { font-family: 'Dancing Script', cursive; }
-        
-        .zoom-transition { 
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), filter 1.2s ease; 
-        }
-
-        .vignette { 
-            position: absolute; 
-            inset: 0; 
-            pointer-events: none; 
-            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 100%); 
-        }
-
-        @keyframes pulse-ring { 
-            0% { transform: scale(0.7); opacity: 0.8; } 
-            100% { transform: scale(1.8); opacity: 0; } 
-        }
-        .ring-anim { animation: pulse-ring 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-
-        #app {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-        }
-
-        ::-webkit-scrollbar { display: none; }
-
-        .map-card {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Invitación Rodrigo y Laura</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{background-color:#0c0a09;margin:0;padding:0;font-family:'Inter',sans-serif;color:white;overflow:hidden;height:100vh;width:100vw;}
+.font-great-vibes{font-family:'Great Vibes',cursive;}
+.font-dancing{font-family:'Dancing Script',cursive;}
+.zoom-transition{transition:transform 1.2s cubic-bezier(0.4,0,0.2,1),filter 1.2s ease;}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,transparent 30%,rgba(0,0,0,0.8) 100%);}
+@keyframes pulse-ring{0%{transform:scale(0.7);opacity:0.8;}100%{transform:scale(1.8);opacity:0;}}
+.ring-anim{animation:pulse-ring 2.5s cubic-bezier(0.4,0,0.6,1) infinite;}
+#app{display:flex;align-items:center;justify-content:center;height:100%;width:100%;}
+::-webkit-scrollbar{display:none;}
+.map-card{background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);}
+</style>
 </head>
-<body class="bg-[#0c0a09]">
 
-    <div id="app">
-        <div id="youtube-container" class="hidden"></div>
+<body>
 
-        <!-- PANTALLA DE CARGA -->
-        <div id="upload-screen" class="absolute inset-0 z-[60] flex flex-col items-center justify-center bg-[#0c0a09] text-center p-8">
-            <div class="w-20 h-20 bg-stone-900 rounded-full flex items-center justify-center mb-6 border border-stone-800 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                <i data-lucide="camera" class="text-orange-500 animate-pulse w-8 h-8"></i>
-            </div>
-            <h1 class="text-xl font-bold tracking-[0.2em] uppercase mb-4 text-stone-200">Visor de Invitación</h1>
-            <p class="text-stone-500 mb-8 text-sm leading-relaxed">Sube la imagen de la invitación para comenzar.</p>
-            <input type="file" id="file-input" accept="image/*" class="hidden">
-            <button id="start-btn" class="bg-orange-600 hover:bg-orange-50 text-stone-950 px-10 py-4 rounded-full font-bold transition-all shadow-xl active:scale-90 uppercase text-xs tracking-[0.2em]">
-                Cargar Imagen
-            </button>
-        </div>
+<div id="app">
+<div id="youtube-container" class="hidden"></div>
 
-        <!-- VISOR PRINCIPAL -->
-        <div id="viewer-container" class="hidden relative w-full h-full flex items-center justify-center">
-            
-            <!-- Controles Superiores -->
-            <div class="absolute top-4 left-4 z-50 flex items-center gap-2">
-                <button id="mute-btn" class="p-4 bg-black/60 text-white rounded-full backdrop-blur-lg border border-white/10 active:scale-90">
-                    <i data-lucide="volume-2" id="mute-icon" class="w-6 h-6"></i>
-                </button>
-                <div class="px-3 py-2 bg-black/60 backdrop-blur-lg border border-white/10 rounded-full text-[9px] uppercase tracking-tighter text-orange-200/80 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-ping"></span>
-                    <span id="song-title">Playlist Especial</span>
-                </div>
-            </div>
+<div id="viewer-container" class="relative w-full h-full flex items-center justify-center">
 
-            <!-- Botón Salir Zoom -->
-            <button id="close-btn" class="hidden absolute top-4 right-4 z-50 p-4 bg-orange-600 text-white rounded-full shadow-2xl active:scale-90 transition-transform">
-                <i data-lucide="chevron-left" class="w-7 h-7"></i>
-            </button>
+<div class="absolute top-4 left-4 z-50 flex items-center gap-2">
+<button id="mute-btn" class="p-4 bg-black/60 text-white rounded-full backdrop-blur-lg border border-white/10 active:scale-90">
+<i data-lucide="volume-2" id="mute-icon" class="w-6 h-6"></i>
+</button>
+<div class="px-3 py-2 bg-black/60 backdrop-blur-lg border border-white/10 rounded-full text-[9px] uppercase tracking-tighter text-orange-200/80 flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-ping"></span>
+<span>Playlist Especial</span>
+</div>
+</div>
 
-            <!-- Marco de la Imagen -->
-            <div id="main-frame" class="relative w-full aspect-[3/2] md:rounded-[2rem] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
-                
-                <!-- Capa de Mensajes -->
-                <div id="zoom-overlay" class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-700">
-                    
-                    <!-- Mensaje 1: Sobre Principal -->
-                    <div id="msg-envelope" class="hidden flex flex-col items-center text-center p-6 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 max-w-[80%]">
-                        <h2 class="text-5xl md:text-8xl text-orange-50 drop-shadow-[0_5px_15px_rgba(0,0,0,1)] font-great-vibes">Rodrigo y Laura</h2>
-                        <p class="text-lg md:text-2xl text-orange-200 mt-2 font-dancing">27 de febrero 2027</p>
-                        <p class="text-3xl md:text-5xl text-orange-300 mt-4 font-dancing">te esperamos</p>
-                    </div>
+<button id="close-btn" class="hidden absolute top-4 right-4 z-50 p-4 bg-orange-600 text-white rounded-full shadow-2xl active:scale-90">
+<i data-lucide="chevron-left" class="w-7 h-7"></i>
+</button>
 
-                    <!-- Mensaje 2: Libro Abierto Inferior (Diario) -->
-                    <div id="msg-journal" class="hidden flex flex-col items-center text-center p-6 bg-black/60 backdrop-blur-lg rounded-2xl border border-white/10 max-w-[85%]">
-                        <p class="text-xl md:text-3xl text-orange-50 leading-relaxed font-dancing drop-shadow-lg">
-                            Después de tanto amor, ¡dimos el gran paso! Y queremos festejarlo con vos. 
-                        </p>
-                        <p class="text-sm md:text-lg text-stone-300 mt-4 font-light tracking-wide italic">
-                            En breve te contamos más… pero ya sabés, reservá la fecha 😉 Te esperamos y confirmá tu asistencia.
-                        </p>
-                    </div>
+<div id="main-frame" class="relative w-full aspect-[3/2] md:rounded-[2rem] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
 
-                    <!-- Mensaje Libro Superior Derecho (Tarjeta/Pagos) -->
-                    <div id="msg-book" class="hidden flex flex-col items-center text-center p-8 bg-black/70 backdrop-blur-xl rounded-3xl border border-white/10 max-w-[85%]">
-                        <div class="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center mb-4 border border-orange-400/30">
-                            <i data-lucide="credit-card" class="text-orange-400 w-6 h-6"></i>
-                        </div>
-                        <p class="text-2xl md:text-4xl text-orange-50 font-dancing leading-relaxed mb-4">
-                            La celebración será con tarjeta.
-                        </p>
-                        <p class="text-lg md:text-2xl text-orange-200/80 font-dancing">
-                            Pronto les compartiremos los detalles y medios de pago.
-                        </p>
-                    </div>
+<div id="zoom-overlay" class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-700">
 
-                    <!-- Mensaje 3: Galería de Fotos -->
-                    <div id="msg-photos" class="hidden flex flex-col items-center text-center p-8 bg-black/50 backdrop-blur-xl rounded-full border border-white/20 px-12">
-                        <p class="text-3xl md:text-5xl text-orange-100 font-dancing tracking-wide">
-                            acá vamos a subir las fotos
-                        </p>
-                    </div>
+<div id="msg-envelope" class="hidden flex flex-col items-center text-center p-6 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 max-w-[80%]">
+<h2 class="text-5xl md:text-8xl text-orange-50 font-great-vibes">Rodrigo y Laura</h2>
+<p class="text-lg md:text-2xl text-orange-200 mt-2 font-dancing">27 de febrero 2027</p>
+<p class="text-3xl md:text-5xl text-orange-300 mt-4 font-dancing">te esperamos</p>
+</div>
 
-                    <!-- Mensaje 4: Brújula (Ubicación Texto) -->
-                    <div id="msg-compass" class="hidden flex flex-col items-center text-center p-6 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10 max-w-[85%]">
-                        <p class="text-lg md:text-2xl text-orange-300 font-dancing mb-1">
-                            nos casamos en
-                        </p>
-                        <p class="text-2xl md:text-4xl text-orange-100 font-dancing leading-snug">
-                            La Catedral de Córdoba
-                        </p>
-                        <p class="text-lg md:text-2xl text-orange-300 mt-3 font-dancing">
-                            y luego nos vamos para el salón
-                        </p>
-                        <p class="text-2xl md:text-4xl text-white font-dancing leading-snug">
-                            Villa Clara
-                        </p>
-                        <div class="mt-4 w-12 h-[1px] bg-orange-500/50"></div>
-                    </div>
+<div id="msg-journal" class="hidden flex flex-col items-center text-center p-6 bg-black/60 backdrop-blur-lg rounded-2xl border border-white/10 max-w-[85%]">
+<p class="text-xl md:text-3xl text-orange-50 font-dancing">
+Después de tanto amor, ¡dimos el gran paso! Y queremos festejarlo con vos.
+</p>
+<p class="text-sm md:text-lg text-stone-300 mt-4 italic">
+Reservá la fecha y confirmá tu asistencia.
+</p>
+</div>
 
-                    <!-- Mensaje 5: Mapa (Ubicación Interactiva) -->
-                    <div id="msg-map" class="hidden flex flex-col items-center pointer-events-auto">
-                        <div class="map-card p-5 rounded-[2.5rem] w-[280px] md:w-[350px] flex flex-col items-center">
-                            <div class="w-10 h-10 bg-orange-600/20 rounded-full flex items-center justify-center mb-3 border border-orange-500/30">
-                                <i data-lucide="map-pin" class="text-orange-400 w-5 h-5"></i>
-                            </div>
-                            <h3 class="text-orange-50 text-2xl font-dancing mb-5">¿Cómo llegar?</h3>
-                            
-                            <div class="flex flex-col gap-3 w-full">
-                                <a href="https://www.google.com/maps/search/?api=1&query=Catedral+de+Córdoba+Argentina" target="_blank" class="flex items-center justify-between p-3.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all group">
-                                    <div class="flex flex-col items-start text-left">
-                                        <span class="text-[9px] uppercase tracking-[0.2em] text-orange-400 font-bold mb-0.5">Ceremonia</span>
-                                        <span class="text-base text-white font-dancing">La Catedral de Córdoba</span>
-                                    </div>
-                                    <i data-lucide="navigation" class="text-orange-500 w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                                </a>
+<div id="msg-book" class="hidden flex flex-col items-center text-center p-8 bg-black/70 backdrop-blur-xl rounded-3xl border border-white/10 max-w-[85%]">
+<p class="text-2xl md:text-4xl text-orange-50 font-dancing">
+La celebración será con tarjeta.
+</p>
+</div>
 
-                                <a href="https://www.google.com/maps/search/?api=1&query=Salon+Villa+Clara+Cordoba+Argentina" target="_blank" class="flex items-center justify-between p-3.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all group">
-                                    <div class="flex flex-col items-start text-left">
-                                        <span class="text-[9px] uppercase tracking-[0.2em] text-orange-400 font-bold mb-0.5">Fiesta</span>
-                                        <span class="text-base text-white font-dancing">Salón Villa Clara</span>
-                                    </div>
-                                    <i data-lucide="navigation" class="text-orange-500 w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                                </a>
-                            </div>
+<div id="msg-photos" class="hidden flex flex-col items-center text-center p-8 bg-black/50 backdrop-blur-xl rounded-full border border-white/20 px-12">
+<p class="text-3xl md:text-5xl text-orange-100 font-dancing">
+acá vamos a subir las fotos
+</p>
+</div>
 
-                            <p class="mt-5 text-[8px] text-stone-500 uppercase tracking-[0.3em]">Abrir en Google Maps</p>
-                        </div>
-                    </div>
-                </div>
+<div id="msg-compass" class="hidden flex flex-col items-center text-center p-6 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10 max-w-[85%]">
+<p class="text-lg md:text-2xl text-orange-300 font-dancing">nos casamos en</p>
+<p class="text-2xl md:text-4xl text-orange-100 font-dancing">La Catedral de Córdoba</p>
+<p class="text-lg md:text-2xl text-orange-300 mt-3 font-dancing">y luego</p>
+<p class="text-2xl md:text-4xl text-white font-dancing">Villa Clara</p>
+</div>
 
-                <img id="main-image" src="" class="w-full h-full object-cover zoom-transition">
-                <div id="pins-container" class="transition-opacity duration-500"></div>
-                <div class="vignette"></div>
-            </div>
-        </div>
-    </div>
+<div id="msg-map" class="hidden flex flex-col items-center pointer-events-auto">
+<div class="map-card p-5 rounded-[2.5rem] w-[280px] md:w-[350px]">
+<a href="https://www.google.com/maps/search/?api=1&query=Catedral+de+Córdoba+Argentina" target="_blank">Ceremonia</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Salon+Villa+Clara+Cordoba+Argentina" target="_blank">Fiesta</a>
+</div>
+</div>
 
-    <script>
-        // Hola Perra!
-        const playlistIds = ["-zgDXIi1uYw", "GOJk0HW_hJw", "5aUUZBqG4UM"];
-        let isMuted = false;
-        let musicStarted = false;
+</div>
 
-        const items = [
-            { id: 'envelope', origin: '50% 51%', scale: 2.3, top: '51%', left: '50%', brightness: 0.6 },
-            { id: 'photos', origin: '18% 82%', scale: 2.8, top: '82%', left: '18%', brightness: 0.6 },
-            { id: 'compass', origin: '14% 56%', scale: 3.5, top: '56%', left: '14%', brightness: 0.5 },
-            { id: 'map', origin: '22% 35%', scale: 2.8, top: '35%', left: '22%', brightness: 0.5 },
-            { id: 'journal', origin: '88% 85%', scale: 2.2, top: '85%', left: '88%', brightness: 0.6 },
-            { id: 'book', origin: '82% 28%', scale: 3.0, top: '28%', left: '82%', brightness: 0.5 }
-        ];
+<img id="main-image" src="imagen.jpeg" class="w-full h-full object-cover zoom-transition">
+<div id="pins-container"></div>
+<div class="vignette"></div>
 
-        lucide.createIcons();
+</div>
+</div>
+</div>
 
-        document.getElementById('start-btn').onclick = function() {
-            document.getElementById('file-input').click();
-        };
+<script>
+const playlistIds=["-zgDXIi1uYw","GOJk0HW_hJw","5aUUZBqG4UM"];
+let isMuted=false;
+let musicStarted=false;
 
-        document.getElementById('file-input').onchange = function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('main-image').src = event.target.result;
-                    document.getElementById('upload-screen').classList.add('hidden');
-                    document.getElementById('viewer-container').classList.remove('hidden');
-                    startExperience();
-                };
-                reader.readAsDataURL(file);
-            }
-        };
+const items=[
+{id:'envelope',origin:'50% 51%',scale:2.3,top:'51%',left:'50%',brightness:0.6},
+{id:'photos',origin:'18% 82%',scale:2.8,top:'82%',left:'18%',brightness:0.6},
+{id:'compass',origin:'14% 56%',scale:3.5,top:'56%',left:'14%',brightness:0.5},
+{id:'map',origin:'22% 35%',scale:2.8,top:'35%',left:'22%',brightness:0.5},
+{id:'journal',origin:'88% 85%',scale:2.2,top:'85%',left:'88%',brightness:0.6},
+{id:'book',origin:'82% 28%',scale:3.0,top:'28%',left:'82%',brightness:0.5}
+];
 
-        function startExperience() {
-            if(!musicStarted) {
-                const container = document.getElementById('youtube-container');
-                const playlistParam = playlistIds.join(',');
-                container.innerHTML = `<iframe id="yt-player" width="1" height="1" src="https://www.youtube.com/embed/${playlistIds[0]}?autoplay=1&loop=1&playlist=${playlistParam}&enablejsapi=1&origin=${window.location.origin}" allow="autoplay"></iframe>`;
-                musicStarted = true;
-            }
-            renderPins();
-        }
+lucide.createIcons();
 
-        function playMusicExplicitly() {
-            const iframe = document.getElementById('yt-player');
-            if(iframe) {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-            }
-        }
+function startExperience(){
+if(!musicStarted){
+const container=document.getElementById('youtube-container');
+const playlistParam=playlistIds.join(',');
+container.innerHTML=`<iframe id="yt-player" width="1" height="1" src="https://www.youtube.com/embed/${playlistIds[0]}?autoplay=1&loop=1&playlist=${playlistParam}&enablejsapi=1" allow="autoplay"></iframe>`;
+musicStarted=true;
+}
+renderPins();
+}
 
-        function renderPins() {
-            const container = document.getElementById('pins-container');
-            container.innerHTML = '';
-            items.forEach(item => {
-                const btn = document.createElement('button');
-                btn.className = 'absolute z-10 -translate-x-1/2 -translate-y-1/2 outline-none group touch-none';
-                btn.style.top = item.top;
-                btn.style.left = item.left;
-                
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    playMusicExplicitly();
-                    
-                    const img = document.getElementById('main-image');
-                    img.style.transformOrigin = item.origin;
-                    img.style.transform = `scale(${item.scale})`;
-                    img.style.filter = `brightness(${item.brightness}) blur(2px)`;
-                    
-                    container.style.opacity = '0';
-                    container.style.pointerEvents = 'none';
-                    document.getElementById('close-btn').classList.remove('hidden');
-                    document.getElementById('zoom-overlay').classList.add('opacity-100');
-                    
-                    document.querySelectorAll('#zoom-overlay > div').forEach(div => div.classList.add('hidden'));
-                    const msgDiv = document.getElementById('msg-' + item.id);
-                    if(msgDiv) msgDiv.classList.remove('hidden');
-                };
+function renderPins(){
+const container=document.getElementById('pins-container');
+items.forEach(item=>{
+const btn=document.createElement('button');
+btn.className='absolute -translate-x-1/2 -translate-y-1/2';
+btn.style.top=item.top;
+btn.style.left=item.left;
 
-                btn.innerHTML = `
-                    <div class="relative flex items-center justify-center w-14 h-14">
-                        <div class="absolute inset-0 bg-orange-500/20 rounded-full blur-lg"></div>
-                        <div class="absolute inset-0 border-2 border-orange-400/40 rounded-full ring-anim"></div>
-                        <div class="w-10 h-10 border-2 border-orange-300/80 rounded-full bg-black/40 backdrop-blur-md shadow-2xl flex items-center justify-center">
-                            <div class="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                        </div>
-                    </div>`;
-                container.appendChild(btn);
-            });
-        }
+btn.onclick=()=>{
+const img=document.getElementById('main-image');
+img.style.transformOrigin=item.origin;
+img.style.transform=`scale(${item.scale})`;
+img.style.filter=`brightness(${item.brightness}) blur(2px)`;
 
-        document.getElementById('close-btn').onclick = function() {
-            const img = document.getElementById('main-image');
-            img.style.transform = 'scale(1)';
-            img.style.filter = 'none';
-            document.getElementById('pins-container').style.opacity = '1';
-            document.getElementById('pins-container').style.pointerEvents = 'auto';
-            this.classList.add('hidden');
-            document.getElementById('zoom-overlay').classList.remove('opacity-100');
-            document.querySelectorAll('#zoom-overlay > div').forEach(div => div.classList.add('hidden'));
-        };
+container.style.opacity='0';
+document.getElementById('close-btn').classList.remove('hidden');
+document.getElementById('zoom-overlay').classList.add('opacity-100');
 
-        document.getElementById('mute-btn').onclick = function() {
-            isMuted = !isMuted;
-            const iframe = document.getElementById('yt-player');
-            const icon = document.getElementById('mute-icon');
-            icon.setAttribute('data-lucide', isMuted ? 'volume-x' : 'volume-2');
-            lucide.createIcons();
-            iframe.contentWindow.postMessage(`{"event":"command","func":"${isMuted ? 'mute' : 'unMute'}","args":""}`, '*');
-        };
-    </script>
+document.querySelectorAll('#zoom-overlay > div').forEach(div=>div.classList.add('hidden'));
+document.getElementById('msg-'+item.id).classList.remove('hidden');
+};
+
+btn.innerHTML='<div class="w-4 h-4 bg-orange-400 rounded-full"></div>';
+container.appendChild(btn);
+});
+}
+
+document.getElementById('close-btn').onclick=function(){
+const img=document.getElementById('main-image');
+img.style.transform='scale(1)';
+img.style.filter='none';
+document.getElementById('pins-container').style.opacity='1';
+this.classList.add('hidden');
+document.getElementById('zoom-overlay').classList.remove('opacity-100');
+};
+
+document.getElementById('mute-btn').onclick=function(){
+isMuted=!isMuted;
+const iframe=document.getElementById('yt-player');
+iframe.contentWindow.postMessage(`{"event":"command","func":"${isMuted?'mute':'unMute'}"}`, '*');
+};
+
+window.onload=startExperience;
+</script>
+
 </body>
-<!-- Hola Perra! -->
 </html>
