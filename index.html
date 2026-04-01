@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <!-- GALO DEJA DE CHUSMEAR CULEA -->
-<!-- Hola Perra! -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invitación Rodrigo y Laura</title>
-    <!-- galo deja de chusmear culea -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -187,7 +185,8 @@
                     </div>
                 </div>
 
-                <img id="main-image" src="imagen.jpeg" class="w-full h-full object-cover md:object-cover object-contain zoom-transition"> <!-- Para que se vea bien en el celu -->
+                <!-- Para que se vea bien en el celu. Acá galo podría ayudar el wachin -->
+                <img id="main-image" src="imagen.jpeg" class="w-full h-full object-cover md:object-cover object-contain zoom-transition">
                 <!-- <img id="main-image" src="imagen.jpeg" class="w-full h-full object-cover zoom-transition"> -->
                 <div id="pins-container" class="transition-opacity duration-500"></div>
                 <div class="vignette"></div>
@@ -196,7 +195,7 @@
     </div>
 
     <script>
-        // Hola Perra!
+        
         const playlistIds = ["-zgDXIi1uYw", "GOJk0HW_hJw", "5aUUZBqG4UM"];
         let isMuted = false;
         let musicStarted = false;
@@ -306,7 +305,7 @@
             lucide.createIcons();
             iframe.contentWindow.postMessage(`{"event":"command","func":"${isMuted ? 'mute' : 'unMute'}","args":""}`, '*');
         };
-
+        // Código Situacionista:  
         window.onload = () => {
             lucide.createIcons();
 
